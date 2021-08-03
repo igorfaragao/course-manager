@@ -3,15 +3,15 @@ import { Course } from "./course";
 import { CourseService } from "./course.service";
 
 @Component({
-    
+
     templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit{
-   
+
     filteredCourses: Course[]=[];
 
     _courses: Course[]= [];
-    
+
     _filterBy: string = " ";
 
     constructor(private courseService: CourseService){
@@ -19,7 +19,7 @@ export class CourseListComponent implements OnInit{
     }
 
      ngOnInit(): void{
-       this.retriveAll;
+       this.retriveAll();
      }
      retriveAll(): void{
         this.courseService.retriveAll().subscribe({
@@ -29,7 +29,7 @@ export class CourseListComponent implements OnInit{
             },
             error:err => console.log("Error", err)
         });
-        
+
      }
 
      set filter(value: string){
