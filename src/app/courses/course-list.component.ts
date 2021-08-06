@@ -6,7 +6,7 @@ import { CourseService } from "./course.service";
     
     templateUrl: './course-list.component.html'
 })
-export class CourseListComponent implements OnInit{
+export class CourseListComponent implements OnInit{ 
    
     filteredCourses: Course[]=[];
 
@@ -19,7 +19,7 @@ export class CourseListComponent implements OnInit{
     }
 
      ngOnInit(): void{
-       this.retriveAll;
+       this.retriveAll();
      }
      retriveAll(): void{
         this.courseService.retriveAll().subscribe({
@@ -30,6 +30,15 @@ export class CourseListComponent implements OnInit{
             error:err => console.log("Error", err)
         });
         
+     }
+     deleteById(courseId: Course): void{
+        this.courseService.deleteById(courseId).subscribe({
+            next: () =>{
+                console.log("Deleted with success");
+                this.retriveAll();
+            },
+            error: err => console.log("Error", err)
+        })
      }
 
      set filter(value: string){

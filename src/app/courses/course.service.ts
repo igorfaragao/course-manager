@@ -8,7 +8,7 @@ import { Course } from "./course";
 })
 export class CourseService{
 
-    private coursesUrl: string = 'htt://localhost:3100/api/courses';
+    private coursesUrl: string = 'http://localhost:3100/api/courses';
 
     constructor(private httpClient:HttpClient){
 
@@ -18,14 +18,20 @@ export class CourseService{
         return this.httpClient.get<Course[]>(this.coursesUrl);
     }
 
-    retriveById(id: number): Course{
-        return COURSES.find((courseIterator: Course) => courseIterator.id === id)!;
+    retriveById(id: number): Observable<Course>{
+        return this.httpClient.get<Course>(`${this.coursesUrl}/${id}`);
+        
     }
-    save(course: Course): void{
-        if(course.id){
-            const index = COURSES.findIndex((courseIterator: Course) => courseIterator.id === courseIterator.id);
-            COURSES[index] = course;
+    save(course: Course): Observable<Course>{
+        if(course.id) { 
+            return this.httpClient.put<Course>(`${this.coursesUrl}/${course.id}`, course);
+        } else { 
+            return this.httpClient.post<Course>(`${this.coursesUrl}`, course);
         }
+
+    }
+    deleteById(id: Course): Observable<any>{
+        return this.httpClient.delete<any>(`${this.coursesUrl}/${id}`);
     }
 }
 
